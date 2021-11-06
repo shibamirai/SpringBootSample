@@ -29,6 +29,6 @@ public class SignupController {
 
 	@PostMapping("/signup")
 	public String postSingup() {
-		return "rediret:/login";
+		return "redirect:/login";
 	}
 }
