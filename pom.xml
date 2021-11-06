@@ -72,6 +72,11 @@
 		    <artifactId>webjars-locator</artifactId>
 		    <version>0.42</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 
 	</dependencies>
 

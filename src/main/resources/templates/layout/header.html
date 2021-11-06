@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<head></head>
+<body>
+  <nav layout:fragment="header"
+      class="navbar fixed-top navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">SpringSample</a>
+      <form method="post" th:action="@{/layout}">
+        <button class="btn btn-link navbar-brand" type="submit">
+            ログアウト
+        </button>
+      </form>
+    </div>
+  </nav>
+</body>
+</html>
