@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/layout}">
+    layout:decorate="~{layout/layout}"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head></head>
 <body>
   <div layout:fragment="menu" class="bg-light">
     <ul class="nav nav-pills flex-column">
       <li role="presentation">
         <a th:href="@{/user/list}" class="nav-link">ユーザー一覧</a>
+      </li>
+      <li role="presentation" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin}" class="nav-link">アドミン専用</a>
       </li>
     </ul>
   </div>
