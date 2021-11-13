@@ -107,6 +107,26 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.6.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/datatables -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>datatables</artifactId>
+		    <version>1.10.24</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/datatables-plugins -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>datatables-plugins</artifactId>
+		    <version>1.10.24</version>
+		    <scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>

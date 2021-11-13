@@ -7,6 +7,7 @@
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/user/signup.css}">
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
+<script th:src="@{/js/user/signup.js}" defer></script>
 <title th:text="#{user.signup.title}"></title>
 </head>
 <body class="bg-light">
@@ -53,7 +54,9 @@
           th:errors="*{gender}"></div>
     </div>
     <input type="submit" th:value="#{user.signup.btn}" class="btn btn-primary w-100 mt-3">
-
+	<button id="btn-signup" type="button" class="btn btn-primary w-100 mt-3">
+	  ユーザー登録(REST)
+	</button>
     <!-- formでth:actionを使っていれば以下の行は不要 -->
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
   </form>
