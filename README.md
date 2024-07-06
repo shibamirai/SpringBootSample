@@ -123,8 +123,6 @@ import jakarta.validation.constraints.Pattern;
 
 ### 8.2 MyBatis基本編
 
-**※バージョン 3.0.2ではSpringの起動に失敗することがあるので、バージョン 3.0.3を使用してください。(2024/7/5)**
-
 Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウンスされていません(2024/7/5時点。[MyBatis公式サイト](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/))が、バージョン 3.0.3 (2024/7/5時点での最新)が使用できます。**3.0.2ではSpring起動時に失敗します。**
 
 また ModelMapper-Spring も新しいバージョンが使えるので 3.2.0 (2024/7/5時点の最新)にします。
