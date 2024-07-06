@@ -1,4 +1,4 @@
-# Spring解体新書第2版の変更点(2023/9/4時点)
+# Spring解体新書第2版の変更点(2024/7/5時点)
 
 本の執筆時点から SprignBoot 自身を始め多くのライブラリのバージョンが変わっています。それらバージョン変更に伴う修正点をここにまとめ、ソースコードとともにここに公開します。
 
@@ -8,7 +8,27 @@
 
 ## 2章 開発環境の構築
 
-Java17が必要なため、Pleiades から最新の Eclipse をインストールします。これには STS や Lombok 等も含まれているため、Eclipse 以外は別途インストールする必要はありません。
+Java21が必要なため、Pleiades から最新の Eclipse をインストールします。これには STS や Lombok 等も含まれているため、Eclipse 以外は別途インストールする必要はありません。
+
+### 2.4.1 プロジェクト作成
+
+新規Springスターター・プロジェクトの設定値は以下。
+
+- タイプ（本では型）はMaven
+- Javaバージョンは21
+- パッケージはcom.example
+
+新規Springスターター・プロジェクト依存関係の設定値は以下。
+
+- Spring Boot バージョンは3.3.1
+- 追加するライブラリ
+
+    |分類|ライブラリ|
+    |-|-|
+    |開発者ツール|Spring Boot DevTools<br>Lombok|
+    |SQL|JDBC API<br>Spring Data JDBC<br>H2 Database|
+    |テンプレートエンジン|Thymeleaf|
+    |Web|Spring Web|
 
 ## 3章 Hello World ・・・簡単なサンプル
 
@@ -21,6 +41,8 @@ Spring起動時に実行するSQLの設定項目が変更されています。
 変更前
 
 ```properties
+spring.datasouce.username=sa
+spring.datasouce.password=
 spring.datasource.sql-script-encoding=UTF-8
 spring.datasource.initialize=true
 spring.datasource.schema=classpath:schema.sql
@@ -30,6 +52,8 @@ spring.datasource.data=classpath:data.sql
 変更後
 
 ```properties
+spring.datasource.username=sa
+spring.datasource.password=
 spring.sql.init.encoding=UTF-8
 spring.sql.init.mode=ALWAYS
 spring.sql.init.schema-locations=classpath:schema.sql
@@ -48,7 +72,7 @@ spring.sql.init.data-locations=classpath:data.sql
 
 ### 6.1.1 ライブラリの仕様・・・webjars
 
-webjars-locator のバージョン 0.47 (2023/9/4時点の最新)が使用できます。
+webjars-locator のバージョン 0.52 (2024/7/5時点の最新)が使用できます。
 
 [pom.xml]
 
@@ -101,8 +125,9 @@ import jakarta.validation.constraints.Pattern;
 
 **※バージョン 3.0.2ではSpringの起動に失敗することがあるので、バージョン 3.0.3を使用してください。(2024/7/5)**
 
-Spring Boot 3.0 - 3.1 に対応した MyBatis-Spring-Boot-Starter のバージョンは 3.0 なので[(MyBatis公式サイト)](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)、バージョン 3.0.2 (2023/9/4時点での最新)を使用します。
-また ModelMapper-Spring も新しいバージョンが使えるので 3.1.1 (2023/9/4時点の最新)にします。
+Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウンスされていません(2024/7/5時点。[MyBatis公式サイト](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/))が、バージョン 3.0.3 (2024/7/5時点での最新)が使用できます。**3.0.2ではSpring起動時に失敗します。**
+
+また ModelMapper-Spring も新しいバージョンが使えるので 3.2.0 (2024/7/5時点の最新)にします。
 
 [pom.xml]
 
@@ -111,13 +136,13 @@ Spring Boot 3.0 - 3.1 に対応した MyBatis-Spring-Boot-Starter のバージ�
 <dependency>
     <groupId>org.mybatis.spring.boot</groupId>
     <artifactId>mybatis-spring-boot-starter</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
 </dependency>
 <!-- Model Mapper -->
 <dependency>
     <groupId>org.modelmapper.extensions</groupId>
     <artifactId>modelmapper-spring</artifactId>
-    <version>3.1.1</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
@@ -127,7 +152,9 @@ Spring Boot 3.0 - 3.1 に対応した MyBatis-Spring-Boot-Starter のバージ�
 
 ## 10章 エラー処理
 
-変更なし
+### 10.1.2 HTTPエラー毎のエラー画面
+
+Spring Boot 3.2から、存在しないURLにリクエストを送ったときの扱いが変わっており(NoResourceFoundExceptionという例外が発生するようになった)、404エラーにはならず500エラーとして扱われるようになっています。
 
 ## 11章 Springセキュリティ
 
@@ -222,9 +249,11 @@ public class SecurityConfig {
 }
 ```
 
-#### 403 エラーのカスタム画面
+#### 403 エラーの画面
 
-ここでの 403 エラーでは、カスタムエラー画面が出ずに「localhost へのアクセスが拒否されました」となります。原因はまだ不明ですが気にせず進めてください。
+authorizeHttpRequests()を使用するようになったことで、直リンクをしたときは403エラーの共通画面ではなく、ログインページにリダイレクトするようになっています。
+ただし、ここではまだログイン処理を実装していない(11.2.2で実装)ためリダイレクトされず、403のエラーコードだけが返されるようになっているため、アプリで用意した共通エラー画面ではなくブラウザのエラー画面が表示されます。
+（403エラーは11.3「認可」のところで出すことができます。）
 
 ### 11.2.2 ログイン処理
 
@@ -321,7 +350,35 @@ public class SecurityConfig {
 
 #### ログイン失敗時のメッセージ変更
 
-原因不明ですが、メッセージプロパティを修正してもメッセージが変更されません。
+バージョンが上がってから、デフォルトでSpringが用意しているメッセージソースが使用されるので、massages.propertiesの変更だけではメッセージ変更できなくなっています。
+
+メッセージを変更するには、下記の修正を加えて、AuthenticationProviderのメッセージソースを変更してやる必要があります。
+
+[JavaConfig.java]
+
+```java
+@Configuration
+public class JavaConfig {
+
+    @Bean
+    ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    // 変更点ここから
+    @Bean
+    AuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService, MessageSource messageSource) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setMessageSource(messageSource);
+        
+        return provider;
+    }
+    // ここまで
+}
+```
 
 ### 11.2.4 パスワードの暗号化
 
