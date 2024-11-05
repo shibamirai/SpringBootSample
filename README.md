@@ -319,6 +319,13 @@ public class SecurityConfig {
 @EnableMethodSecurity   // このアノテーションはこのアプリではなくてよい
 public class SecurityConfig {
 
+    // 変更点 ここから
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    // ここまで
+
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         ...(省略)
@@ -390,12 +397,10 @@ public class JavaConfig {
 @EnableMethodSecurity   // このアノテーションはこのアプリではなくてよい
 public class SecurityConfig {
 
-    // 変更点 ここから
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    // ここまで
 
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
@@ -410,6 +415,8 @@ public class SecurityConfig {
     // 変更点 ここから
     @Bean
     InMemoryUserDetailsManager userDetailsService() {
+        PasswordEncoder encoder = passwordEncoder();
+
         UserDetails user = User.withUsername("user")
                 .password(encoder.encode("user"))
                 .roles("GENERAL")
