@@ -1,40 +1,40 @@
-# Spring解体新書第2版の変更点(2024/7/5時点)
+# Spring 解体新書第 2 版の変更点(2024/7/5 時点)
 
 本の執筆時点から SprignBoot 自身を始め多くのライブラリのバージョンが変わっています。それらバージョン変更に伴う修正点をここにまとめ、ソースコードとともにここに公開します。
 
-## 1章 Springの概要
+## 1 章 Spring の概要
 
 変更なし
 
-## 2章 開発環境の構築
+## 2 章 開発環境の構築
 
-Java21が必要なため、Pleiades から最新の Eclipse をインストールします。これには STS や Lombok 等も含まれているため、Eclipse 以外は別途インストールする必要はありません。
+Java21 が必要なため、Pleiades から最新の Eclipse をインストールします。これには STS や Lombok 等も含まれているため、Eclipse 以外は別途インストールする必要はありません。
 
 ### 2.4.1 プロジェクト作成
 
-新規Springスターター・プロジェクトの設定値は以下。
+新規 Spring スターター・プロジェクトの設定値は以下。
 
-- タイプ（本では型）はMaven
-- Javaバージョンは21
-- パッケージはcom.example
+- タイプ（本では型）は Maven
+- Java バージョンは 21
+- パッケージは com.example
 
-新規Springスターター・プロジェクト依存関係の設定値は以下。
+新規 Spring スターター・プロジェクト依存関係の設定値は以下。
 
-- Spring Boot バージョンは3.3.1
+- Spring Boot バージョンは 3.3.1
 - 追加するライブラリ
 
-    |分類|ライブラリ|
-    |-|-|
-    |開発者ツール|Spring Boot DevTools<br>Lombok|
-    |SQL|JDBC API<br>Spring Data JDBC<br>H2 Database|
-    |テンプレートエンジン|Thymeleaf|
-    |Web|Spring Web|
+  | 分類                 | ライブラリ                                  |
+  | -------------------- | ------------------------------------------- |
+  | 開発者ツール         | Spring Boot DevTools<br>Lombok              |
+  | SQL                  | JDBC API<br>Spring Data JDBC<br>H2 Database |
+  | テンプレートエンジン | Thymeleaf                                   |
+  | Web                  | Spring Web                                  |
 
-## 3章 Hello World ・・・簡単なサンプル
+## 3 章 Hello World ・・・簡単なサンプル
 
 ### 3.3 データベースから値を取得する
 
-Spring起動時に実行するSQLの設定項目が変更されています。
+Spring 起動時に実行する SQL の設定項目が変更されています。
 
 [application.properties]
 
@@ -60,19 +60,19 @@ spring.sql.init.schema-locations=classpath:schema.sql
 spring.sql.init.data-locations=classpath:data.sql
 ```
 
-## 4章 Webアプリケーションの概要
+## 4 章 Web アプリケーションの概要
 
 変更なし
 
-## 5章 Dependency Injection(依存性の注入)
+## 5 章 Dependency Injection(依存性の注入)
 
 変更なし
 
-## 6章 バインド&バリデーション(入力チェック)
+## 6 章 バインド&バリデーション(入力チェック)
 
 ### 6.1.1 ライブラリの仕様・・・webjars
 
-webjars-locator のバージョン 0.52 (2024/7/5時点の最新)が使用できます。
+webjars-locator のバージョン 0.52 (2024/7/5 時点の最新)が使用できます。
 
 [pom.xml]
 
@@ -87,7 +87,7 @@ webjars-locator のバージョン 0.52 (2024/7/5時点の最新)が使用でき
 
 ### 6.3.1 バリデーションの実装
 
-Spring Boot 3 から JavaEE が JakartaEE 9になったため、パッケージ名が javax.\* となっているものをすべて jakarta.\* に変更する必要があります。
+Spring Boot 3 から JavaEE が JakartaEE 9 になったため、パッケージ名が javax.\* となっているものをすべて jakarta.\* に変更する必要があります。
 
 [SignupForm.java]
 
@@ -115,17 +115,17 @@ import jakarta.validation.constraints.Pattern;
 
 (上記だけでなく、以降に出てくるすべてのコードの javax パッケージを変更します)
 
-## 7章 画面レイアウト
+## 7 章 画面レイアウト
 
 変更なし
 
-## 8章 MyBatis
+## 8 章 MyBatis
 
-### 8.2 MyBatis基本編
+### 8.2 MyBatis 基本編
 
-Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウンスされていません(2024/7/5時点。[MyBatis公式サイト](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/))が、バージョン 3.0.3 (2024/7/5時点での最新)が使用できます。**3.0.2ではSpring起動時に失敗します。**
+Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウンスされていません(2024/7/5 時点。[MyBatis 公式サイト](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/))が、バージョン 3.0.3 (2024/7/5 時点での最新)が使用できます。**3.0.2 では Spring 起動時に失敗します。**
 
-また ModelMapper-Spring も新しいバージョンが使えるので 3.2.0 (2024/7/5時点の最新)にします。
+また ModelMapper-Spring も新しいバージョンが使えるので 3.2.0 (2024/7/5 時点の最新)にします。
 
 [pom.xml]
 
@@ -144,21 +144,21 @@ Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウ�
 </dependency>
 ```
 
-## 9章 AOP
+## 9 章 AOP
 
 変更なし
 
-## 10章 エラー処理
+## 10 章 エラー処理
 
-### 10.1.2 HTTPエラー毎のエラー画面
+### 10.1.2 HTTP エラー毎のエラー画面
 
-Spring Boot 3.2から、存在しないURLにリクエストを送ったときの扱いが変わっており(NoResourceFoundExceptionという例外が発生するようになった)、404エラーにはならず500エラーとして扱われるようになっています。
+Spring Boot 3.2 から、存在しない URL にリクエストを送ったときの扱いが変わっており(NoResourceFoundException という例外が発生するようになった)、404 エラーにはならず 500 エラーとして扱われるようになっています。
 
-## 11章 Springセキュリティ
+## 11 章 Spring セキュリティ
 
 ### 11.2.1 直リンクの禁止
 
-Spring Boot 3 で Spring-Boot-Starter-Security を入れると SpringSecurity のバージョンが 5 ではなく 6 となります。それに合わせて Thymeleaf拡張ライブラリ(セキュリティ)を Thymeleaf-Extras-SpringSecurity6 に変更します。
+Spring Boot 3 で Spring-Boot-Starter-Security を入れると SpringSecurity のバージョンが 5 ではなく 6 となります。それに合わせて Thymeleaf 拡張ライブラリ(セキュリティ)を Thymeleaf-Extras-SpringSecurity6 に変更します。
 
 [pom.xml]
 
@@ -179,22 +179,22 @@ SpringSecurity 5.7 以降から、セキュリティ設定クラスの書き方�
 
 - WebSecurityConfigurerAdapter を継承せず、configure で行っている HttpSecurity http へのセキュリティ設定は SecurityFilterChain を Bean 定義して行う
 - webjars や css などはセキュリティ対象外として設定するのではなく、ログイン不要ページとして設定する
-- authorizeRequests()ではなくauthorizeHttpRequests()を使う
+- authorizeRequests()ではなく authorizeHttpRequests()を使う
 - 設定はラムダ式で記述する
-- antMatchers()ではなくrequestMatchers()を使う
+- antMatchers()ではなく requestMatchers()を使う
 - requestMatchers()の引数に、文字列でパスを指定("/login"など)するとエラーになる(※)ため、文字列ではなく MvcRequestMatcher インスタンスをセットする
-具体的には、MvcRequestMatcher.Builder を Bean 登録して securityFilterChainの引数 mvc に DI でセットし、mvc.pattern("/user/signup") のようにして指定する
-※SpringMVCの管轄の "/" とH2データベースの管轄の "/h2-console" が並存しており、文字列だけでは SpringMVC の管轄かどうかが判断できないためと思われる
+  具体的には、MvcRequestMatcher.Builder を Bean 登録して securityFilterChain の引数 mvc に DI でセットし、mvc.pattern("/user/signup") のようにして指定する
+  ※SpringMVC の管轄の "/" と H2 データベースの管轄の "/h2-console" が並存しており、文字列だけでは SpringMVC の管轄かどうかが判断できないためと思われる
 - 一般的な静的リソースの場所の指定(/webjars/\*\*, /css/\*\*, /js/\*\*)は、PathRequest.toStaticResources().atCommonLocations() としてまとめて指定する
 - "/login" への直リンク許可設定は、次節のログイン処理設定で行うためここではまだ行わない
-- csrf().disable() は非推奨となったため、ラムダ式でcsrf(csrf -> csrf.disabe()) のように指定する
-- H2コンソールのパス("/h2-console/\*\*")は、PathRequest.toH2Console() として指定する
-- H2コンソールを表示させるためには、さらに以下の設定が必要
+- csrf().disable() は非推奨となったため、ラムダ式で csrf(csrf -> csrf.disabe()) のように指定する
+- H2 コンソールのパス("/h2-console/\*\*")は、PathRequest.toH2Console() として指定する
+- H2 コンソールを表示させるためには、さらに以下の設定が必要
 
-    ```java
-    http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
-    http.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()));
-    ```
+  ```java
+  http.headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
+  http.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()));
+  ```
 
 [SecurityConfig.java]
 
@@ -224,7 +224,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
@@ -249,9 +249,9 @@ public class SecurityConfig {
 
 #### 403 エラーの画面
 
-authorizeHttpRequests()を使用するようになったことで、直リンクをしたときは403エラーの共通画面ではなく、ログインページにリダイレクトするようになっています。
-ただし、ここではまだログイン処理を実装していない(11.2.2で実装)ためリダイレクトされず、403のエラーコードだけが返されるようになっているため、アプリで用意した共通エラー画面ではなくブラウザのエラー画面が表示されます。
-（403エラーは11.3「認可」のところで出すことができます。）
+authorizeHttpRequests()を使用するようになったことで、直リンクをしたときは 403 エラーの共通画面ではなく、ログインページにリダイレクトするようになっています。
+ただし、ここではまだログイン処理を実装していない(11.2.2 で実装)ためリダイレクトされず、403 のエラーコードだけが返されるようになっているため、アプリで用意した共通エラー画面ではなくブラウザのエラー画面が表示されます。
+（403 エラーは 11.3「認可」のところで出すことができます。）
 
 ### 11.2.2 ログイン処理
 
@@ -272,7 +272,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
@@ -355,9 +355,9 @@ public class SecurityConfig {
 
 #### ログイン失敗時のメッセージ変更
 
-バージョンが上がってから、デフォルトでSpringが用意しているメッセージソースが使用されるので、massages.propertiesの変更だけではメッセージ変更できなくなっています。
+バージョンが上がってから、デフォルトで Spring が用意しているメッセージソースが使用されるので、massages.properties の変更だけではメッセージ変更できなくなっています。
 
-メッセージを変更するには、下記の修正を加えて、AuthenticationProviderのメッセージソースを変更してやる必要があります。
+メッセージを変更するには、下記の修正を加えて、AuthenticationProvider のメッセージソースを変更してやる必要があります。
 
 [JavaConfig.java]
 
@@ -378,7 +378,7 @@ public class JavaConfig {
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         provider.setMessageSource(messageSource);
-        
+
         return provider;
     }
     // ここまで
@@ -479,7 +479,7 @@ public class SecurityConfig {
 
 ### 11.2.6 ログアウト処理
 
-http.logout()もラムダ式で記述します。http.*() のメソッドはメソッドチェーンで繋げて書くこともできます。
+http.logout()もラムダ式で記述します。http.\*() のメソッドはメソッドチェーンで繋げて書くこともできます。
 
 [SecurityConfig.java]
 
@@ -501,7 +501,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
@@ -521,6 +521,7 @@ public class SecurityConfig {
         ).logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
+                .permitAll()    // logoutSuccessUrl で独自のログアウト成功エンドポイントを指定したら、それを許可する必要がある
         // ここまで
         );
 
@@ -541,7 +542,7 @@ public class SecurityConfig {
 }
 ```
 
-### 11.2.7 CSRF対策
+### 11.2.7 CSRF 対策
 
 コメントアウトするのはラムダ式内の.disable()のみで、.ignoringRequestMatchers(PathRequest.toH2Console())は残します。
 
@@ -582,9 +583,9 @@ public class SecurityConfig {
 }
 ```
 
-### 11.3.1 URLの認可
+### 11.3.1 URL の認可
 
-セキュリティ設定クラスへのURL認可の設定も、antMatchers() ではなく requestMatchers() と mvc.pattern() を使います。
+セキュリティ設定クラスへの URL 認可の設定も、antMatchers() ではなく requestMatchers() と mvc.pattern() を使います。
 
 [SecurityConfig.java]
 
@@ -606,7 +607,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
@@ -624,11 +625,11 @@ public class SecurityConfig {
 }
 ```
 
-## 12章 REST
+## 12 章 REST
 
 ### 12.2.3 検索
 
-DataTables は新しいバージョンが使えるので 1.13.5 (2023/9/4時点の最新) を使用します。それに伴い DataTables の言語設定ファイル名が変わっているので、list.js にも修正が必要です。
+DataTables は新しいバージョンが使えるので 1.13.5 (2023/9/4 時点の最新) を使用します。それに伴い DataTables の言語設定ファイル名が変わっているので、list.js にも修正が必要です。
 
 [pom.xml]
 
@@ -679,6 +680,6 @@ function createDataTables() {
 }
 ```
 
-## 13章 Spring Data JPA
+## 13 章 Spring Data JPA
 
-javax パッケージは jakarta パッケージに修正してください。(MUser, Department, SalaryKey, Salary の4クラス)
+javax パッケージは jakarta パッケージに修正してください。(MUser, Department, SalaryKey, Salary の 4 クラス)
