@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -22,21 +20,16 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-		return new MvcRequestMatcher.Builder(introspector);
-	}
 
 	@Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 				.requestMatchers(PathRequest.toH2Console()).permitAll()
-				.requestMatchers(mvc.pattern("/user/signup")).permitAll()
-				.requestMatchers(mvc.pattern("/user/signup/rest")).permitAll()
-				.requestMatchers(mvc.pattern("/admin")).hasAuthority("ROLE_ADMIN")
+				.requestMatchers("/user/signup").permitAll()
+				.requestMatchers("/user/signup/rest").permitAll()
+				.requestMatchers("/admin").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 		);
 

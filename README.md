@@ -1,4 +1,4 @@
-# Spring 解体新書第 2 版の変更点(2024/7/5 時点)
+# Spring 解体新書第 2 版の変更点(2025/8/19 時点)
 
 本の執筆時点から SprignBoot 自身を始め多くのライブラリのバージョンが変わっています。それらバージョン変更に伴う修正点をここにまとめ、ソースコードとともにここに公開します。
 
@@ -20,7 +20,7 @@ Java21 が必要なため、Pleiades から最新の Eclipse をインストー�
 
 新規 Spring スターター・プロジェクト依存関係の設定値は以下。
 
-- Spring Boot バージョンは 3.3.1
+- Spring Boot バージョンは 3.5.0
 - 追加するライブラリ
 
   | 分類                 | ライブラリ                                  |
@@ -182,9 +182,9 @@ SpringSecurity 5.7 以降から、セキュリティ設定クラスの書き方�
 - authorizeRequests()ではなく authorizeHttpRequests()を使う
 - 設定はラムダ式で記述する
 - antMatchers()ではなく requestMatchers()を使う
-- requestMatchers()の引数に、文字列でパスを指定("/login"など)するとエラーになる(※)ため、文字列ではなく MvcRequestMatcher インスタンスをセットする
-  具体的には、MvcRequestMatcher.Builder を Bean 登録して securityFilterChain の引数 mvc に DI でセットし、mvc.pattern("/user/signup") のようにして指定する
-  ※SpringMVC の管轄の "/" と H2 データベースの管轄の "/h2-console" が並存しており、文字列だけでは SpringMVC の管轄かどうかが判断できないためと思われる
+- ~~requestMatchers()の引数に、文字列でパスを指定("/login"など)するとエラーになる(※)ため、文字列ではなく MvcRequestMatcher インスタンスをセットする~~
+  ~~具体的には、MvcRequestMatcher.Builder を Bean 登録して securityFilterChain の引数 mvc に DI でセットし、mvc.pattern("/user/signup") のようにして指定する~~
+  ~~※SpringMVC の管轄の "/" と H2 データベースの管轄の "/h2-console" が並存しており、文字列だけでは SpringMVC の管轄かどうかが判断できないためと思われる~~
 - 一般的な静的リソースの場所の指定(/webjars/\*\*, /css/\*\*, /js/\*\*)は、PathRequest.toStaticResources().atCommonLocations() としてまとめて指定する
 - "/login" への直リンク許可設定は、次節のログイン処理設定で行うためここではまだ行わない
 - csrf().disable() は非推奨となったため、ラムダ式で csrf(csrf -> csrf.disabe()) のように指定する
@@ -209,8 +209,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -218,17 +216,12 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class SecurityConfig {
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector);
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers(mvc.pattern("/user/signup")).permitAll()
+                .requestMatchers("/user/signup").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -266,17 +259,12 @@ authorizeHttpRequests()を使用するようになったことで、直リンク
 public class SecurityConfig {
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers(mvc.pattern("/user/signup")).permitAll()
+                .requestMatchers("/user/signup").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -327,12 +315,7 @@ public class SecurityConfig {
     // ここまで
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         ...(省略)
     }
 
@@ -403,12 +386,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         ...(省略)
     }
 
@@ -449,12 +427,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         ...(省略)
     }
 
@@ -495,17 +468,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers(mvc.pattern("/user/signup")).permitAll()
+                .requestMatchers("/user/signup").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -560,12 +528,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         ...(省略)
 
         // CSRF 対策を無効に設定 (一時的)
@@ -585,7 +548,7 @@ public class SecurityConfig {
 
 ### 11.3.1 URL の認可
 
-セキュリティ設定クラスへの URL 認可の設定も、antMatchers() ではなく requestMatchers() と mvc.pattern() を使います。
+セキュリティ設定クラスへの URL 認可の設定も、antMatchers() ではなく requestMatchers() を使います。
 
 [SecurityConfig.java]
 
@@ -601,19 +564,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        ...(省略)
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers(mvc.pattern("/user/signup")).permitAll()
+                .requestMatchers("/user/signup").permitAll()
                 // 変更点 ここから
-                .requestMatchers(mvc.pattern("/admin")).hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 // ここまで
                 .anyRequest().authenticated()
         );
