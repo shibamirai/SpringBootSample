@@ -323,11 +323,11 @@ public class SecurityConfig {
     @Bean
     InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.withUsername("user")
-                .password("user"))
+                .password("user")
                 .roles("GENERAL")
                 .build();
         UserDetails admin = User.withUsername("admin")
-                .password("admin"))
+                .password("admin")
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
