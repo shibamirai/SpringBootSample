@@ -152,7 +152,26 @@ Spring Boot 3.3 に対応した MyBatis-Spring-Boot-Starter はまだアナウ�
 
 ### 10.1.2 HTTP エラー毎のエラー画面
 
-Spring Boot 3.2 から、存在しない URL にリクエストを送ったときの扱いが変わっており(NoResourceFoundException という例外が発生するようになった)、404 エラーにはならず 500 エラーとして扱われるようになっています。
+Spring Boot 3.2 以降、存在しない URL にリクエストを送ると NoResourceFoundException という例外を発生させるようになったため、404 エラーではなく 500 エラーとなります。この例外を 404 エラーとして扱うには、10.2.3 Web アプリケーション全体の例外処理で作成する GlobalControllAdvice クラスに下記のメソッドを追加してください。
+
+[SecurityConfig.java]
+
+```java
+@ControllerAdvice
+public class GlobalControllAdvice {
+
+    ...(省略)
+
+    /** 静的リソースが見つからないときは HTTP 404 を返すようにする */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public String handleNoResourceFound(NoResourceFoundException e, Model model) {
+        model.addAttribute("error", e.getMessage());
+        model.addAttribute("status", HttpStatus.NOT_FOUND);
+
+        return "error/404";
+    }
+}
+```
 
 ## 11 章 Spring セキュリティ
 
